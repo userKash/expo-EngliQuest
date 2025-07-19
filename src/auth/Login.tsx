@@ -2,8 +2,15 @@ import { useState } from 'react';
 import { View, Image, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import type { RootStackParamList } from '../navigation/type';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 export default function LoginScreen() {
+  const navigation = useNavigation<NavigationProp>();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,7 +37,6 @@ export default function LoginScreen() {
             <Text style={styles.title}>Sign in</Text>
           </View>
 
-          {/* Email Field with Icon */}
           <Text style={styles.label}>Email</Text>
           <View style={styles.inputWrapper}>
             <Fontisto name="email" size={20} color="#A2A2A2" style={styles.inputIcon} />
@@ -45,7 +51,6 @@ export default function LoginScreen() {
             />
           </View>
 
-          {/* Password Field with Icon */}
           <Text style={styles.label}>Password</Text>
           <View style={styles.inputWrapper}>
             <Feather name="lock" size={18} color="gray" style={styles.inputIcon} />
@@ -65,7 +70,8 @@ export default function LoginScreen() {
 
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>Don't have an account? </Text>
-            <TouchableOpacity onPress={() => console.log('Go to Sign Up')}>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text style={styles.linkText}>Sign up here</Text>
             </TouchableOpacity>
           </View>
@@ -104,8 +110,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#A2A2A2',
     borderRadius: 5,
     flexDirection: 'row',
     paddingVertical: 23,
@@ -137,6 +141,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginBottom: 16,
     backgroundColor: '#fff',
+    height: 50,
   },
   inputIcon: {
     marginRight: 10,
@@ -152,6 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5E67CC',
     paddingVertical: 12,
     borderRadius: 8,
+    marginTop: 40,
   },
   buttonText: {
     color: '#fff',
