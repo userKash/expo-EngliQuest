@@ -13,6 +13,8 @@ export default function LoginScreen() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
   const handleLogin = () => {
     if (!email || !password) {
@@ -28,9 +30,11 @@ export default function LoginScreen() {
       <View style={styles.logoContainer}>
         <Image source={require('../../assets/logo.png')} style={styles.logo} />
       </View>
+
       <View style={styles.descriptionDiv}>
         <Text style={styles.description}>Welcome! Sign in to continue learning</Text>
       </View>
+
       <View style={styles.subcontainer}>
         <View style={styles.form}>
           <View style={styles.titlediv}>
@@ -38,7 +42,8 @@ export default function LoginScreen() {
           </View>
 
           <Text style={styles.label}>Email</Text>
-          <View style={styles.inputWrapper}>
+          <View
+            style={[styles.inputWrapper, { borderColor: isEmailFocused ? '#5E67CC' : '#d1d5db' }]}>
             <Fontisto name="email" size={20} color="#A2A2A2" style={styles.inputIcon} />
             <TextInput
               style={styles.inputField}
@@ -47,12 +52,18 @@ export default function LoginScreen() {
               autoCapitalize="none"
               value={email}
               onChangeText={setEmail}
+              onFocus={() => setIsEmailFocused(true)}
+              onBlur={() => setIsEmailFocused(false)}
               placeholderTextColor="#9ca3af"
             />
           </View>
 
           <Text style={styles.label}>Password</Text>
-          <View style={styles.inputWrapper}>
+          <View
+            style={[
+              styles.inputWrapper,
+              { borderColor: isPasswordFocused ? '#5E67CC' : '#d1d5db' },
+            ]}>
             <Feather name="lock" size={18} color="gray" style={styles.inputIcon} />
             <TextInput
               style={styles.inputField}
@@ -60,6 +71,8 @@ export default function LoginScreen() {
               secureTextEntry
               value={password}
               onChangeText={setPassword}
+              onFocus={() => setIsPasswordFocused(true)}
+              onBlur={() => setIsPasswordFocused(false)}
               placeholderTextColor="#9ca3af"
             />
           </View>
@@ -70,7 +83,6 @@ export default function LoginScreen() {
 
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>Don't have an account? </Text>
-
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text style={styles.linkText}>Sign up here</Text>
             </TouchableOpacity>
@@ -100,10 +112,11 @@ const styles = StyleSheet.create({
   },
   descriptionDiv: {
     justifyContent: 'center',
-    paddingBottom: 65,
   },
   description: {
     fontSize: 14,
+    color: '#000',
+    marginBottom: 15,
   },
   subcontainer: {
     backgroundColor: '#fff',
@@ -118,15 +131,14 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   titlediv: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 24,
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#000000',
-    marginBottom: 32,
   },
   label: {
     color: '#374151',
@@ -136,7 +148,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#d1d5db',
     borderRadius: 8,
     paddingHorizontal: 12,
     marginBottom: 16,
@@ -152,7 +163,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#111827',
   },
-
   button: {
     backgroundColor: '#5E67CC',
     paddingVertical: 12,
