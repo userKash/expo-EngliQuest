@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Text } from 'react-native';
 
 import LoginScreen from './src/auth/Login';
+import WordOfTheDayScreen from './src/screens/WordOfTheDay';
 import RegistrationForm from './src/auth/Registration';
 import InterestSelectionScreen from './src/auth/InterestSelectionScreen';
 import type { RootStackParamList } from './src/navigation/type';
@@ -34,18 +35,24 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="WordOfTheDay"
+          component={WordOfTheDayScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+
         <Stack.Screen
           name="Register"
           component={RegistrationForm}
           options={{
             headerBackTitle: '', // hides "Back" text on iOS
             headerStyle: {
-              backgroundColor: '#fff', // white background
+              backgroundColor: '#fff',
             },
-            headerTintColor: '#000', // black arrow
+            headerTintColor: '#000',
             headerTitle: '', // no center title
-            headerShadowVisible: false, // ✅ removes iOS bottom border
+            headerShadowVisible: false, // removes iOS bottom border
           }}
         />
         <Stack.Screen
@@ -54,9 +61,9 @@ export default function App() {
           options={{
             headerBackTitle: '', // hides "Back" text on iOS
             headerStyle: {
-              backgroundColor: '#fff', // white background
+              backgroundColor: '#fff',
             },
-            headerTintColor: '#000', // black arrow
+            headerTintColor: '#000',
             headerTitle: '', // no center title
             headerShadowVisible: false, // ✅ removes iOS bottom border
           }}

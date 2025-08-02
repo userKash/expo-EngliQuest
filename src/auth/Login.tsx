@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { View, Image, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -16,13 +17,33 @@ export default function LoginScreen() {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert('Missing Fields', 'Please enter both email and password.');
       return;
     }
 
-    Alert.alert('Login Info', `Email: ${email}\nPassword: ${password}`);
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        Alert.alert('Success', 'Login successful!');
+        // You can store the token if needed
+        // await AsyncStorage.setItem('token', data.token);
+        navigation.navigate('WordOfTheDay'); // or wherever you want to go after login
+      } else {
+        Alert.alert('Login Failed', data.error || 'Something went wrong.');
+      }
+    } catch (err) {
+      console.error(err);
+      Alert.alert('Error', 'Could not connect to the server.');
+    }
   };
 
   return (
@@ -34,66 +55,73 @@ export default function LoginScreen() {
       <View style={styles.descriptionDiv}>
         <Text style={styles.description}>Welcome! Sign in to continue learning</Text>
       </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.subcontainer}>
+          <View style={styles.form}>
+            <View style={styles.titlediv}>
+              <Text style={styles.title}>Sign in</Text>
+            </View>
 
-      <View style={styles.subcontainer}>
-        <View style={styles.form}>
-          <View style={styles.titlediv}>
-            <Text style={styles.title}>Sign in</Text>
-          </View>
+            <Text style={styles.label}>Email</Text>
+            <View
+              style={[
+                styles.inputWrapper,
+                { borderColor: isEmailFocused ? '#5E67CC' : '#d1d5db' },
+              ]}>
+              <Fontisto name="email" size={20} color="#A2A2A2" style={styles.inputIcon} />
+              <TextInput
+                style={styles.inputField}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
+                onFocus={() => setIsEmailFocused(true)}
+                onBlur={() => setIsEmailFocused(false)}
+                placeholderTextColor="#9ca3af"
+              />
+            </View>
 
-          <Text style={styles.label}>Email</Text>
-          <View
-            style={[styles.inputWrapper, { borderColor: isEmailFocused ? '#5E67CC' : '#d1d5db' }]}>
-            <Fontisto name="email" size={20} color="#A2A2A2" style={styles.inputIcon} />
-            <TextInput
-              style={styles.inputField}
-              placeholder="Enter your email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={setEmail}
-              onFocus={() => setIsEmailFocused(true)}
-              onBlur={() => setIsEmailFocused(false)}
-              placeholderTextColor="#9ca3af"
-            />
-          </View>
+            <Text style={styles.label}>Password</Text>
+            <View
+              style={[
+                styles.inputWrapper,
+                { borderColor: isPasswordFocused ? '#5E67CC' : '#d1d5db' },
+              ]}>
+              <Feather name="lock" size={18} color="gray" style={styles.inputIcon} />
+              <TextInput
+                style={styles.inputField}
+                placeholder="Enter your password"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+                onFocus={() => setIsPasswordFocused(true)}
+                onBlur={() => setIsPasswordFocused(false)}
+                placeholderTextColor="#9ca3af"
+              />
+            </View>
 
-          <Text style={styles.label}>Password</Text>
-          <View
-            style={[
-              styles.inputWrapper,
-              { borderColor: isPasswordFocused ? '#5E67CC' : '#d1d5db' },
-            ]}>
-            <Feather name="lock" size={18} color="gray" style={styles.inputIcon} />
-            <TextInput
-              style={styles.inputField}
-              placeholder="Enter your password"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-              onFocus={() => setIsPasswordFocused(true)}
-              onBlur={() => setIsPasswordFocused(false)}
-              placeholderTextColor="#9ca3af"
-            />
-          </View>
-
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-
-          <View style={styles.footerContainer}>
-            <Text style={styles.footerText}>Don't have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.linkText}>Sign up here</Text>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+
+            <View style={styles.footerContainer}>
+              <Text style={styles.footerText}>Don't have an account? </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                <Text style={styles.linkText}>Sign up here</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
