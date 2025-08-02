@@ -7,6 +7,7 @@ import { Text } from 'react-native';
 
 import LoginScreen from './src/auth/Login';
 import WordOfTheDayScreen from './src/screens/WordOfTheDay';
+import HomeScreen from './src/screens/home';
 import RegistrationForm from './src/auth/Registration';
 import InterestSelectionScreen from './src/auth/InterestSelectionScreen';
 import type { RootStackParamList } from './src/navigation/type';
@@ -18,6 +19,7 @@ export default function App() {
     PoppinsRegular: require('./assets/fonts/Poppins-Regular.ttf'),
     PoppinsBold: require('./assets/fonts/Poppins-Bold.ttf'),
     PoppinsSemiBold: require('./assets/fonts/Poppins-SemiBold.ttf'),
+    PoppinsBoldItalic: require('./assets/fonts/Poppins-BoldItalic.ttf'),
   });
 
   // ✅ Global font override
@@ -41,7 +43,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Register"
           component={RegistrationForm}
