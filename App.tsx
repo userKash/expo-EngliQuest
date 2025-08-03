@@ -12,6 +12,12 @@ import RegistrationForm from './src/auth/Registration';
 import InterestSelectionScreen from './src/auth/InterestSelectionScreen';
 import type { RootStackParamList } from './src/navigation/type';
 
+import VocabularyBuilderScreen from './src/screens/topics/VocabularyBuilder/VocabularyBuilderScreen';
+import GrammarPracticeScreen from './src/screens/topics/GrammarPractice/GrammarPracticeScreen';
+import ReadingComprehensionScreen from './src/screens/topics/ReadingComprehension/ReadingComprehensionScreen';
+import FilipinoToEnglishScreen from './src/screens/topics/FilipinoToEnglish/FilipinoToEnglishScreen';
+import SentenceConstructionScreen from './src/screens/topics/SentenceConstruction/SentenceConstructionScreen';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
@@ -37,12 +43,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="WordOfTheDay"
           component={WordOfTheDayScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Register"
@@ -70,6 +77,11 @@ export default function App() {
             headerShadowVisible: false, // ✅ removes iOS bottom border
           }}
         />
+        <Stack.Screen name="VocabularyBuilder" component={VocabularyBuilderScreen} />
+        <Stack.Screen name="GrammarPractice" component={GrammarPracticeScreen} />
+        <Stack.Screen name="ReadingComprehension" component={ReadingComprehensionScreen} />
+        <Stack.Screen name="FilipinoToEnglish" component={FilipinoToEnglishScreen} />
+        <Stack.Screen name="SentenceConstruction" component={SentenceConstructionScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

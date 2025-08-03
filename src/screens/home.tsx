@@ -2,42 +2,13 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import { Feather } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation/type';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
-
-  const topics = [
-    {
-      title: 'Vocabulary Builder',
-      desc: 'Learn new words with flashcards',
-      image: require('../../assets/Vocabulary Builder.png'),
-      screen: 'VocabularyBuilder',
-    },
-    {
-      title: 'Grammar Practice',
-      desc: 'Master English grammar rules',
-      image: require('../../assets/Grammar Practice.png'),
-      screen: 'GrammarPractice',
-    },
-    {
-      title: 'Reading Comprehension',
-      desc: 'Improve reading skills',
-      image: require('../../assets/Reading Comprehension.png'),
-      screen: 'ReadingComprehension',
-    },
-    {
-      title: 'Filipino to English',
-      desc: 'Practice translation skills',
-      image: require('../../assets/Filipino to English.png'),
-      screen: 'FilipinoToEnglish',
-    },
-    {
-      title: 'Sentence Construction',
-      desc: 'Arrange jumbled words',
-      image: require('../../assets/Sentence Construction.png'),
-      screen: 'SentenceConstruction',
-    },
-  ];
+  const navigation = useNavigation<NavigationProp>();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -66,28 +37,118 @@ export default function HomeScreen() {
 
           <Text style={styles.sectionTitle}>Recommended topics</Text>
 
-          {topics.map((topic, idx) => (
-            <View key={idx} style={styles.topicCard}>
-              <View style={styles.topicLeft}>
-                <Image source={topic.image} style={styles.topicIcon} />
-                <View>
-                  <Text style={styles.topicTitle}>{topic.title}</Text>
-                  <Text style={styles.topicDesc}>{topic.desc}</Text>
-                  <View style={styles.progressBarBg}>
-                    <View style={[styles.progressBarFill, { width: '0%' }]} />
-                  </View>
+          {/* Vocabulary Builder */}
+          <View style={styles.topicCard}>
+            <View style={styles.topicLeft}>
+              <Image
+                source={require('../../assets/Vocabulary Builder.png')}
+                style={styles.topicIcon}
+              />
+              <View>
+                <Text style={styles.topicTitle}>Vocabulary Builder</Text>
+                <Text style={styles.topicDesc}>Learn new words with flashcards</Text>
+                <View style={styles.progressBarBg}>
+                  <View style={[styles.progressBarFill, { width: '0%' }]} />
                 </View>
               </View>
-
-              <TouchableOpacity
-                style={styles.startBtn}
-                onPress={() => navigation.navigate(topic.screen)}>
-                <Text style={styles.startText}>Start</Text>
-              </TouchableOpacity>
             </View>
-          ))}
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPress={() => navigation.navigate('VocabularyBuilder')}>
+              <Text style={styles.startText}>Start</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Grammar Practice */}
+          <View style={styles.topicCard}>
+            <View style={styles.topicLeft}>
+              <Image
+                source={require('../../assets/Grammar Practice.png')}
+                style={styles.topicIcon}
+              />
+              <View>
+                <Text style={styles.topicTitle}>Grammar Practice</Text>
+                <Text style={styles.topicDesc}>Master English grammar rules</Text>
+                <View style={styles.progressBarBg}>
+                  <View style={[styles.progressBarFill, { width: '0%' }]} />
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPress={() => navigation.navigate('GrammarPractice')}>
+              <Text style={styles.startText}>Start</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Reading Comprehension */}
+          <View style={styles.topicCard}>
+            <View style={styles.topicLeft}>
+              <Image
+                source={require('../../assets/Reading Comprehension.png')}
+                style={styles.topicIcon}
+              />
+              <View>
+                <Text style={styles.topicTitle}>Reading Comprehension</Text>
+                <Text style={styles.topicDesc}>Improve reading skills</Text>
+                <View style={styles.progressBarBg}>
+                  <View style={[styles.progressBarFill, { width: '0%' }]} />
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPress={() => navigation.navigate('ReadingComprehension')}>
+              <Text style={styles.startText}>Start</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Filipino to English */}
+          <View style={styles.topicCard}>
+            <View style={styles.topicLeft}>
+              <Image
+                source={require('../../assets/Filipino to English.png')}
+                style={styles.topicIcon}
+              />
+              <View>
+                <Text style={styles.topicTitle}>Filipino to English</Text>
+                <Text style={styles.topicDesc}>Practice translation skills</Text>
+                <View style={styles.progressBarBg}>
+                  <View style={[styles.progressBarFill, { width: '0%' }]} />
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPress={() => navigation.navigate('FilipinoToEnglish')}>
+              <Text style={styles.startText}>Start</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Sentence Construction */}
+          <View style={styles.topicCard}>
+            <View style={styles.topicLeft}>
+              <Image
+                source={require('../../assets/Sentence Construction.png')}
+                style={styles.topicIcon}
+              />
+              <View>
+                <Text style={styles.topicTitle}>Sentence Construction</Text>
+                <Text style={styles.topicDesc}>Arrange jumbled words</Text>
+                <View style={styles.progressBarBg}>
+                  <View style={[styles.progressBarFill, { width: '0%' }]} />
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPress={() => navigation.navigate('SentenceConstruction')}>
+              <Text style={styles.startText}>Start</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
 
+        {/* Bottom Navigation */}
         <View style={styles.bottomNav}>
           <Feather name="home" size={24} color="#5E67CC" />
           <Feather name="bar-chart-2" size={24} color="#9CA3AF" />
@@ -100,10 +161,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  scrollContainer: {
-    padding: 20,
-    paddingBottom: 120,
-  },
+  scrollContainer: { padding: 20, paddingBottom: 120 },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -111,20 +169,9 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-  },
-  greeting: {
-    fontSize: 14,
-    color: '#333',
-  },
-  subtext: {
-    fontSize: 12,
-    color: '#888',
-    fontFamily: 'PoppinsRegular',
-  },
+  avatar: { width: 48, height: 48, borderRadius: 24 },
+  greeting: { fontSize: 14, color: '#333' },
+  subtext: { fontSize: 12, color: '#888', fontFamily: 'PoppinsRegular' },
   welcome: {
     fontSize: 24,
     color: '#5E67CC',
@@ -145,16 +192,8 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 20,
   },
-  cardTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  cardLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
-  },
+  cardTitle: { fontSize: 14, fontWeight: 'bold', marginBottom: 8 },
+  cardLabel: { fontSize: 12, color: '#666', marginBottom: 4 },
   progressBarBg: {
     height: 6,
     borderRadius: 3,
@@ -162,19 +201,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 6,
   },
-  progressBarFill: {
-    height: 6,
-    backgroundColor: '#5E67CC',
-  },
-  totalQuizzes: {
-    fontSize: 10,
-    color: '#999',
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
+  progressBarFill: { height: 6, backgroundColor: '#5E67CC' },
+  totalQuizzes: { fontSize: 10, color: '#999' },
+  sectionTitle: { fontSize: 14, fontWeight: 'bold', marginBottom: 12 },
   topicCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -191,32 +220,16 @@ const styles = StyleSheet.create({
     gap: 10,
     flex: 1,
   },
-  topicIcon: {
-    width: 28,
-    height: 28,
-    marginTop: 3,
-  },
-  topicTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#111827',
-  },
-  topicDesc: {
-    fontSize: 12,
-    color: '#6B7280',
-    marginBottom: 6,
-  },
+  topicIcon: { width: 28, height: 28, marginTop: 3 },
+  topicTitle: { fontSize: 14, fontWeight: '600', color: '#111827' },
+  topicDesc: { fontSize: 12, color: '#6B7280', marginBottom: 6 },
   startBtn: {
     backgroundColor: '#5E67CC',
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 16,
   },
-  startText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 12,
-  },
+  startText: { color: '#fff', fontWeight: '600', fontSize: 12 },
   bottomNav: {
     position: 'absolute',
     bottom: 0,

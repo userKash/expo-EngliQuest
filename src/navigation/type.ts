@@ -8,4 +8,9 @@ export type RootStackParamList = {
   };
   Home: undefined;
   WordOfTheDay: undefined;
+  VocabularyBuilder: undefined;
+  GrammarPractice: undefined;
+  ReadingComprehension: undefined;
+  FilipinoToEnglish: undefined;
+  SentenceConstruction: undefined;
 };

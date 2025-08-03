@@ -1,86 +1,16 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from 'react-native';
+import { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/type';
 import type { RouteProp } from '@react-navigation/native';
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'InterestSelection'>;
-type RouteProps = RouteProp<RootStackParamList, 'InterestSelection'>;
-
-type FeatherIconName = React.ComponentProps<typeof Feather>['name'];
-
-const interestsList: {
-  id: string;
-  title: string;
-  description: string;
-  icon: FeatherIconName;
-  color: string;
-}[] = [
-  {
-    id: '1',
-    title: 'Adventure Stories',
-    description: 'Exciting journeys and quests',
-    icon: 'compass',
-    color: '#FAA030',
-  },
-  {
-    id: '2',
-    title: 'Friendship',
-    description: 'Stories about bonds and relationships',
-    icon: 'users',
-    color: '#F59E0B',
-  },
-  {
-    id: '3',
-    title: 'Fantasy & Magic',
-    description: 'Spells and mythical creatures',
-    icon: 'star',
-    color: '#8B5CF6',
-  },
-  {
-    id: '4',
-    title: 'Music & Arts',
-    description: 'Creative expression and performance',
-    icon: 'music',
-    color: '#10B981',
-  },
-  {
-    id: '5',
-    title: 'Sports & Games',
-    description: 'Athletic activities and competition',
-    icon: 'activity',
-    color: '#3B82F6',
-  },
-  {
-    id: '6',
-    title: 'Nature & Animals',
-    description: 'Wildlife and environmental themes',
-    icon: 'globe',
-    color: '#22C55E',
-  },
-  {
-    id: '7',
-    title: 'Filipino Culture',
-    description: 'Traditional stories and customs',
-    icon: 'flag',
-    color: '#EC4899',
-  },
-  {
-    id: '8',
-    title: 'Family Values',
-    description: 'Family bonds and traditions',
-    icon: 'heart',
-    color: '#EF4444',
-  },
-];
-
 export default function InterestSelectionScreen() {
   const [selected, setSelected] = useState<string[]>([]);
-  const navigation = useNavigation<NavigationProp>();
-  const route = useRoute<RouteProps>();
-
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'InterestSelection'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'InterestSelection'>>();
   const { fullName, email, password } = route.params;
 
   const toggleInterest = (title: string) => {
@@ -94,21 +24,13 @@ export default function InterestSelectionScreen() {
       Alert.alert('Selection Required', 'Please select at least 3 interests.');
       return;
     }
-
     try {
       const res = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fullName,
-          email,
-          password,
-          interests: selected,
-        }),
+        body: JSON.stringify({ fullName, email, password, interests: selected }),
       });
-
       const data = await res.json();
-
       if (res.ok) {
         Alert.alert('Success', 'Account created successfully!');
         navigation.navigate('Login');
@@ -122,89 +44,115 @@ export default function InterestSelectionScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>What interests you?</Text>
-      <Text style={styles.subtext}>
-        Select at least 3 topics you enjoy. We'll create personalized stories and lessons just for
-        you!
-      </Text>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <Text style={styles.header}>What interests you?</Text>
+        <Text style={styles.subtext}>
+          Select at least 3 topics you enjoy. We'll create personalized stories and lessons just for
+          you!
+        </Text>
 
-      <FlatList
-        data={interestsList}
-        numColumns={2}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingTop: 10 }}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        renderItem={({ item }) => (
+        <View style={styles.row}>
           <TouchableOpacity
-            style={[styles.card, selected.includes(item.title) && styles.cardSelected]}
-            onPress={() => toggleInterest(item.title)}>
-            <Feather name={item.icon} size={24} color={item.color} style={{ marginBottom: 8 }} />
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.description}>{item.description}</Text>
+            style={[styles.card, selected.includes('Adventure Stories') && styles.cardSelected]}
+            onPress={() => toggleInterest('Adventure Stories')}>
+            <Feather name="compass" size={24} color="#FAA030" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Adventure Stories</Text>
+            <Text style={styles.description}>Exciting journeys and quests</Text>
           </TouchableOpacity>
-        )}
-      />
+          <TouchableOpacity
+            style={[styles.card, selected.includes('Friendship') && styles.cardSelected]}
+            onPress={() => toggleInterest('Friendship')}>
+            <Feather name="users" size={24} color="#F59E0B" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Friendship</Text>
+            <Text style={styles.description}>Stories about bonds and relationships</Text>
+          </TouchableOpacity>
+        </View>
 
-      <TouchableOpacity style={styles.createBtn} onPress={handleCreateAccount}>
-        <Text style={styles.createText}>Create</Text>
-      </TouchableOpacity>
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={[styles.card, selected.includes('Fantasy & Magic') && styles.cardSelected]}
+            onPress={() => toggleInterest('Fantasy & Magic')}>
+            <Feather name="star" size={24} color="#8B5CF6" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Fantasy & Magic</Text>
+            <Text style={styles.description}>Spells and mythical creatures</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.card, selected.includes('Music & Arts') && styles.cardSelected]}
+            onPress={() => toggleInterest('Music & Arts')}>
+            <Feather name="music" size={24} color="#10B981" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Music & Arts</Text>
+            <Text style={styles.description}>Creative expression and performance</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={[styles.card, selected.includes('Sports & Games') && styles.cardSelected]}
+            onPress={() => toggleInterest('Sports & Games')}>
+            <Feather name="activity" size={24} color="#3B82F6" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Sports & Games</Text>
+            <Text style={styles.description}>Athletic activities and competition</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.card, selected.includes('Nature & Animals') && styles.cardSelected]}
+            onPress={() => toggleInterest('Nature & Animals')}>
+            <Feather name="globe" size={24} color="#22C55E" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Nature & Animals</Text>
+            <Text style={styles.description}>Wildlife and environmental themes</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={[styles.card, selected.includes('Filipino Culture') && styles.cardSelected]}
+            onPress={() => toggleInterest('Filipino Culture')}>
+            <Feather name="flag" size={24} color="#EC4899" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Filipino Culture</Text>
+            <Text style={styles.description}>Traditional stories and customs</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.card, selected.includes('Family Values') && styles.cardSelected]}
+            onPress={() => toggleInterest('Family Values')}>
+            <Feather name="heart" size={24} color="#EF4444" style={{ marginBottom: 8 }} />
+            <Text style={styles.title}>Family Values</Text>
+            <Text style={styles.description}>Family bonds and traditions</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+
+      <View style={styles.buttonWrapper}>
+        <TouchableOpacity style={styles.createBtn} onPress={handleCreateAccount}>
+          <Text style={styles.createText}>Create</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  subtext: {
-    fontSize: 14,
-    textAlign: 'center',
-    marginVertical: 10,
-    color: '#555',
-    paddingBottom: 10,
-  },
+  container: { padding: 20, paddingBottom: 120, backgroundColor: '#fff' },
+  header: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginBottom: 4, marginTop: 20 },
+  subtext: { fontSize: 14, textAlign: 'center', marginBottom: 20, color: '#555' },
+  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
   card: {
-    flex: 1,
+    width: '48%',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 12,
-    margin: 8,
     padding: 12,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  cardSelected: {
-    borderColor: '#5E67CC',
-    backgroundColor: '#eef2ff',
-  },
-  title: {
-    fontWeight: '600',
-    fontSize: 15,
-    marginBottom: 6,
-  },
-  description: {
-    fontSize: 12,
-    color: '#666',
-    textAlign: 'center',
-  },
+  cardSelected: { borderColor: '#5E67CC', backgroundColor: '#eef2ff' },
+  title: { fontWeight: '600', fontSize: 15, marginBottom: 6, textAlign: 'center' },
+  description: { fontSize: 12, color: '#666', textAlign: 'center' },
+  buttonWrapper: { position: 'absolute', bottom: 34, left: 24, right: 24 },
   createBtn: {
     backgroundColor: '#5E67CC',
-    padding: 16,
+    paddingVertical: 14,
     borderRadius: 10,
-    marginTop: 20,
+    alignItems: 'center',
   },
-  createText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
+  createText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });
