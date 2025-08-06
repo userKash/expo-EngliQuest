@@ -12,6 +12,8 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import type { RootStackParamList } from '../navigation/type';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
 
 export default function RegistrationForm() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Register'>>();
@@ -22,7 +24,7 @@ export default function RegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!fullName || !email || !password || !confirmPassword) {
       Alert.alert('Missing Fields', 'Please fill in all fields.');
       return;
@@ -31,7 +33,18 @@ export default function RegistrationForm() {
       Alert.alert('Password Mismatch', 'Passwords do not match.');
       return;
     }
-    navigation.navigate('InterestSelection', { fullName, email, password });
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log('User created:', user);
+
+      Alert.alert('Success', 'Registration successful!');
+      navigation.navigate('InterestSelection', { fullName, email, password });
+    } catch (error: any) {
+      console.error(error);
+      Alert.alert('Registration Failed', error.message || 'Something went wrong.');
+    }
   };
 
   return (
@@ -142,7 +155,15 @@ const styles = StyleSheet.create({
     gap: 8,
     height: 50,
   },
-  input: { flex: 1, fontSize: 16, color: '#111827' },
+  input: {
+  flex: 1,
+  fontSize: 16,
+  color: '#111827',
+  paddingTop: 1,        
+  paddingBottom: 4,      
+  lineHeight: 22,        
+},
+
   buttonWrapper: { position: 'absolute', bottom: 34, left: 24, right: 24 },
   createBtn: {
     backgroundColor: '#5E67CC',

@@ -1,11 +1,21 @@
 import { useState } from 'react';
-import { View, Image, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import type { RootStackParamList } from '../navigation/type';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig'; 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -24,25 +34,14 @@ export default function LoginScreen() {
     }
 
     try {
-      const res = await fetch('', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        Alert.alert('Success', 'Login successful!');
-        // You can store the token if needed
-        // await AsyncStorage.setItem('token', data.token);
-        navigation.navigate('WordOfTheDay'); // or wherever you want to go after login
-      } else {
-        Alert.alert('Login Failed', data.error || 'Something went wrong.');
-      }
-    } catch (err) {
-      console.error(err);
-      Alert.alert('Error', 'Could not connect to the server.');
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log('Logged in user:', user);
+      Alert.alert('Success', 'Login successful!');
+      navigation.navigate('WordOfTheDay');
+    } catch (error: any) {
+      console.error(error);
+      Alert.alert('Login Failed', error.message || 'Something went wrong.');
     }
   };
 
@@ -55,6 +54,7 @@ export default function LoginScreen() {
       <View style={styles.descriptionDiv}>
         <Text style={styles.description}>Welcome! Sign in to continue learning</Text>
       </View>
+
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.subcontainer}>
           <View style={styles.form}>
