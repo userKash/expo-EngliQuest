@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { RootStackParamList } from '../navigation/type';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebaseConfig'; 
+import { auth } from '../../firebaseConfig';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/type';
-
+import BottomNav from '../components/BottomNav';
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
@@ -147,14 +147,8 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </ScrollView>
-
-        {/* Bottom Navigation */}
-        <View style={styles.bottomNav}>
-          <Feather name="home" size={24} color="#5E67CC" />
-          <Feather name="bar-chart-2" size={24} color="#9CA3AF" />
-          <Feather name="user" size={24} color="#9CA3AF" />
-        </View>
       </View>
+      <BottomNav />
     </SafeAreaView>
   );
 }
@@ -230,16 +224,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   startText: { color: '#fff', fontWeight: '600', fontSize: 12 },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 60,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderColor: '#e5e7eb',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
 });

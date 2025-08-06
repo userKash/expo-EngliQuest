@@ -8,6 +8,8 @@ import { Text } from 'react-native';
 import LoginScreen from './src/auth/Login';
 import WordOfTheDayScreen from './src/screens/WordOfTheDay';
 import HomeScreen from './src/screens/home';
+import ProgressScreen from './src/screens/ProgressScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 import RegistrationForm from './src/auth/Registration';
 import InterestSelectionScreen from './src/auth/InterestSelectionScreen';
 import type { RootStackParamList } from './src/navigation/type';
@@ -43,14 +45,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false, animation: 'none' }}
+        />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="WordOfTheDay"
           component={WordOfTheDayScreen}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="Register"
           component={RegistrationForm}
@@ -82,6 +88,16 @@ export default function App() {
         <Stack.Screen name="ReadingComprehension" component={ReadingComprehensionScreen} />
         <Stack.Screen name="FilipinoToEnglish" component={FilipinoToEnglishScreen} />
         <Stack.Screen name="SentenceConstruction" component={SentenceConstructionScreen} />
+        <Stack.Screen
+          name="Progress"
+          component={ProgressScreen}
+          options={{ headerShown: false, animation: 'none' }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ headerShown: false, animation: 'none' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

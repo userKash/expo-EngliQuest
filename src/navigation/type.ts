@@ -7,6 +7,8 @@ export type RootStackParamList = {
     password: string;
   };
   Home: undefined;
+  Progress: undefined;
+  Profile: undefined;
   WordOfTheDay: undefined;
   VocabularyBuilder: undefined;
   GrammarPractice: undefined;
