@@ -131,10 +131,24 @@ export default function InterestSelectionScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, paddingBottom: 120, backgroundColor: '#fff' },
-  header: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginBottom: 4, marginTop: 20 },
+  container: {
+    padding: 20,
+    paddingBottom: 120,
+    backgroundColor: '#fff',
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 4,
+    marginTop: 20,
+  },
   subtext: { fontSize: 14, textAlign: 'center', marginBottom: 20, color: '#555' },
-  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
   card: {
     width: '48%',
     borderWidth: 1,
@@ -144,15 +158,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
-  cardSelected: { borderColor: '#5E67CC', backgroundColor: '#eef2ff' },
-  title: { fontWeight: '600', fontSize: 15, marginBottom: 6, textAlign: 'center' },
-  description: { fontSize: 12, color: '#666', textAlign: 'center' },
-  buttonWrapper: { position: 'absolute', bottom: 34, left: 24, right: 24 },
+  cardSelected: {
+    borderColor: '#5E67CC',
+    backgroundColor: '#eef2ff',
+  },
+  title: {
+    fontWeight: '600',
+    fontSize: 15,
+    marginBottom: 6,
+    textAlign: 'center',
+  },
+  description: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'center',
+  },
+  buttonWrapper: {
+    position: 'absolute',
+    bottom: 34,
+    left: 24,
+    right: 24,
+  },
   createBtn: {
     backgroundColor: '#5E67CC',
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
   },
-  createText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  createText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

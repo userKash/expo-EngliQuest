@@ -44,13 +44,13 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="WordOfTheDay"
           component={WordOfTheDayScreen}
           options={{ headerShown: false }}
         />
-
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Register"
           component={RegistrationForm}
@@ -60,7 +60,7 @@ export default function App() {
               backgroundColor: '#fff',
             },
             headerTintColor: '#000',
-            headerTitle: '', // no center title
+            headerTitle: ' ', // no center title
             headerShadowVisible: false, // removes iOS bottom border
           }}
         />
