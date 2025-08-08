@@ -10,9 +10,14 @@ export type RootStackParamList = {
   Progress: undefined;
   Profile: undefined;
   WordOfTheDay: undefined;
+
   VocabularyBuilder: undefined;
+
   GrammarPractice: undefined;
+
   ReadingComprehension: undefined;
+
   FilipinoToEnglish: undefined;
+
   SentenceConstruction: undefined;
 };
