@@ -1,6 +1,11 @@
-// firebaseConfig.ts
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeAuth } from 'firebase/auth';
+import type { Persistence } from 'firebase/auth'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+// @ts-expect-error: it's a hidden export but exists at runtime
+import { getReactNativePersistence } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC7AMHG2pEDsqL91NyTWlisA8YEl3SBxCA',
@@ -12,4 +17,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage) as Persistence,
+});
