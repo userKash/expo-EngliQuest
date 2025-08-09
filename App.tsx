@@ -15,7 +15,6 @@ import InterestSelectionScreen from './src/auth/InterestSelectionScreen';
 import type { RootStackParamList } from './src/navigation/type';
 
 import VocabularyBuilderScreen from './src/screens/topics/VocabularyBuilder/VocabularyBuilderScreen';
-import InstructionsScreen from './src/screens/topics/VocabularyBuilder/VocabularyGameScreen';
 import GrammarPracticeScreen from './src/screens/topics/GrammarPractice/GrammarPracticeScreen';
 import ReadingComprehensionScreen from './src/screens/topics/ReadingComprehension/ReadingComprehensionScreen';
 import FilipinoToEnglishScreen from './src/screens/topics/FilipinoToEnglish/FilipinoToEnglishScreen';
@@ -46,12 +45,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
           options={{ headerShown: false, animation: 'none' }}
         />
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+
         <Stack.Screen
           name="WordOfTheDay"
           component={WordOfTheDayScreen}
