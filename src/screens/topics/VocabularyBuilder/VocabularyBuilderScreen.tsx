@@ -1,7 +1,20 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+  Image,
+  ScrollView,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../../navigation/type';
+import BottomNav from '../../../components/BottomNav';
 
 export default function VocabularyBuilderScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [easyExpanded, setEasyExpanded] = useState(false);
   const rotation = useState(new Animated.Value(0))[0];
 
@@ -20,120 +33,127 @@ export default function VocabularyBuilderScreen() {
   });
 
   return (
-    <View style={styles.container}>
-      {/* Progress */}
-      <View style={styles.progressCard}>
-        <Text style={styles.progressTitle}>Your Progress</Text>
-        <Text style={styles.progressText}>1 of 3 levels completed</Text>
-        <View style={styles.progressDots}>
-          <View style={[styles.dot, styles.dotActive]} />
-          <View style={styles.dot} />
-          <View style={styles.dot} />
-        </View>
-      </View>
-
-      {/* Easy Level */}
-      <View style={styles.levelCard}>
-        <View style={styles.levelCircle}>
-          <Text style={styles.levelNumber}>1</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.levelTitle}>
-            Easy <Text style={styles.badge}>Not Started</Text>
-          </Text>
-          <Text style={styles.levelDesc}>Basic level</Text>
-        </View>
-        <TouchableOpacity style={styles.startButton} onPress={toggleExpand}>
-          <Animated.Image
-            source={require('../../../../assets/arrow.png')}
-            style={[styles.arrowIcon, { transform: [{ rotate: rotateInterpolate }] }]}
-          />
-          <Text style={styles.startButtonText}>Start</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Sub-levels */}
-      {easyExpanded && (
-        <>
-          <View style={styles.subLevelCard}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.subLevelTitle}>
-                Level 1 <Text style={styles.badge}>Not Started</Text>
-              </Text>
-              <Text style={styles.subLevelDesc}>Basic level</Text>
-            </View>
-            <TouchableOpacity style={styles.startButton}>
-              <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
-              <Text style={styles.startButtonText}>Start</Text>
-            </TouchableOpacity>
+    <View style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Progress */}
+        <View style={styles.progressCard}>
+          <Text style={styles.progressTitle}>Your Progress</Text>
+          <Text style={styles.progressText}>1 of 3 levels completed</Text>
+          <View style={styles.progressDots}>
+            <View style={[styles.dot, styles.dotActive]} />
+            <View style={styles.dot} />
+            <View style={styles.dot} />
           </View>
+        </View>
 
-          <View style={styles.subLevelCard}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.subLevelTitle}>
-                Level 2 <Text style={styles.badge}>Not Started</Text>
-              </Text>
-              <Text style={styles.subLevelDesc}>Basic level</Text>
-            </View>
-            <TouchableOpacity style={[styles.startButton, styles.buttonDisabled]}>
-              <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
-              <Text style={styles.startButtonText}>Start</Text>
-            </TouchableOpacity>
+        {/* Easy Level */}
+        <View style={styles.levelCard}>
+          <View style={styles.levelCircle}>
+            <Text style={styles.levelNumber}>1</Text>
           </View>
-        </>
-      )}
-
-      {/* Medium */}
-      <View style={[styles.levelCard, styles.levelLocked]}>
-        <View style={styles.levelCircle}>
-          <Text style={styles.levelNumber}>3</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.levelTitle}>
+              Easy <Text style={styles.badge}>Not Started</Text>
+            </Text>
+            <Text style={styles.levelDesc}>Basic level</Text>
+          </View>
+          <TouchableOpacity style={styles.startButton} onPress={toggleExpand}>
+            <Animated.Image
+              source={require('../../../../assets/arrow.png')}
+              style={[styles.arrowIcon, { transform: [{ rotate: rotateInterpolate }] }]}
+            />
+            <Text style={styles.startButtonText}>Start</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.levelTitle}>
-            Medium <Text style={styles.lockedText}>🔒 Locked</Text>
+
+        {/* Sub-levels */}
+        {easyExpanded && (
+          <>
+            <View style={styles.subLevelCard}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.subLevelTitle}>
+                  Level 1 <Text style={styles.badge}>Not Started</Text>
+                </Text>
+                <Text style={styles.subLevelDesc}>Basic level</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.startButton}
+                onPress={() => navigation.navigate('VocabularyGame')}>
+                <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
+                <Text style={styles.startButtonText}>Start</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.subLevelCard}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.subLevelTitle}>
+                  Level 2 <Text style={styles.badge}>Not Started</Text>
+                </Text>
+                <Text style={styles.subLevelDesc}>Basic level</Text>
+              </View>
+              <TouchableOpacity style={[styles.startButton, styles.buttonDisabled]}>
+                <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
+                <Text style={styles.startButtonText}>Start</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+
+        {/* Medium */}
+        <View style={[styles.levelCard, styles.levelLocked]}>
+          <View style={styles.levelCircle}>
+            <Text style={styles.levelNumber}>3</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.levelTitle}>
+              Medium <Text style={styles.lockedText}>🔒 Locked</Text>
+            </Text>
+            <Text style={styles.levelDesc}>Intermediate level</Text>
+          </View>
+          <TouchableOpacity style={[styles.startButton, styles.buttonDisabled]}>
+            <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
+            <Text style={styles.startButtonText}>Start</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Hard */}
+        <View style={[styles.levelCard, styles.levelLocked]}>
+          <View style={styles.levelCircle}>
+            <Text style={styles.levelNumber}>4</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.levelTitle}>
+              Hard <Text style={styles.lockedText}>🔒 Locked</Text>
+            </Text>
+            <Text style={styles.levelDesc}>Advanced level</Text>
+          </View>
+          <TouchableOpacity style={[styles.startButton, styles.buttonDisabled]}>
+            <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
+            <Text style={styles.startButtonText}>Start</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Tips */}
+        <View style={styles.tipsCard}>
+          <Text style={styles.tipsText}>
+            Complete each level in order. Pass Easy, Medium, and Hard with 70% to unlock the next
+            level.
           </Text>
-          <Text style={styles.levelDesc}>Intermediate level</Text>
+          <Text style={styles.tip}>💡 Learning Tips</Text>
+          <Text style={styles.tip}>• Start with Easy level to build confidence</Text>
+          <Text style={styles.tip}>• Practice regularly for better retention</Text>
+          <Text style={styles.tip}>• Complete all levels to master the skill</Text>
         </View>
-        <TouchableOpacity style={[styles.startButton, styles.buttonDisabled]}>
-          <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
-          <Text style={styles.startButtonText}>Start</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
 
-      {/* Hard */}
-      <View style={[styles.levelCard, styles.levelLocked]}>
-        <View style={styles.levelCircle}>
-          <Text style={styles.levelNumber}>4</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.levelTitle}>
-            Hard <Text style={styles.lockedText}>🔒 Locked</Text>
-          </Text>
-          <Text style={styles.levelDesc}>Advanced level</Text>
-        </View>
-        <TouchableOpacity style={[styles.startButton, styles.buttonDisabled]}>
-          <Image source={require('../../../../assets/arrow.png')} style={styles.arrowIcon} />
-          <Text style={styles.startButtonText}>Start</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Tips */}
-      <View style={styles.tipsCard}>
-        <Text style={styles.tipsText}>
-          Complete each level in order. Pass Easy, Medium, and Hard with 70% to unlock the next
-          level.
-        </Text>
-        <Text style={styles.tip}>💡 Learning Tips</Text>
-        <Text style={styles.tip}>• Start with Easy level to build confidence</Text>
-        <Text style={styles.tip}>• Practice regularly for better retention</Text>
-        <Text style={styles.tip}>• Complete all levels to master the skill</Text>
-      </View>
+      <BottomNav />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  screen: { flex: 1, backgroundColor: '#fff' },
+  scrollContent: { padding: 20, paddingBottom: 80 }, // extra bottom space for nav
   progressCard: {
     borderWidth: 1,
     borderColor: '#E0E0E0',

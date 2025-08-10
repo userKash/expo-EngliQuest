@@ -1,89 +1,66 @@
-// components/InstructionsCard.tsx
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import InstructionsCard from '../../../components/InstructionsCard';
+import VocabularyQuizUI, { VocabQuestion } from '../../../components/VocabularyQuizUI';
+import BottomNav from '../../../components/BottomNav';
 
-interface InstructionsCardProps {
-  onNext: () => void;
-}
+export default function VocabularyGameScreen() {
+  const [step, setStep] = useState<'instructions' | 'quiz'>('instructions');
 
-export default function InstructionsCard({ onNext }: InstructionsCardProps) {
+  const instructions = {
+    title: 'Vocabulary Builder',
+    body:
+      'Instruction: \n\n' +
+      'Read the word and choose the correct definition or meaning.\n\n' +
+      'Some questions may ask for synonyms or example usage.\n\n' +
+      'Only one choice is correct.',
+    tip: 'Use context clues to find the best answer.',
+  };
+
+  const questions: VocabQuestion[] = [
+    {
+      sentence: 'word',
+      prompt: 'Question',
+      choices: ['Correct', 'Answer 2', 'Answer 3', 'Answer 4'],
+      correctIndex: 0,
+    },
+    {
+      sentence:
+        'Even though the movie was three hours long, the audience was enthralled, sitting in complete silence and awe until the very end.',
+      prompt: 'What does the word "enthralled" most likely mean?',
+      choices: [
+        'Bored and restless',
+        'Fascinated and deeply interested',
+        'Confused and uncertain',
+        'Shocked and frightened',
+      ],
+      correctIndex: 1,
+    },
+  ];
+
   return (
-    <View style={styles.card}>
-      <View style={styles.header}>
-        <Image source={require('../../../assets/Vocabulary\ Builder.png')} style={styles.icon} />
-        <Text style={styles.title}>Vocabulary Builder</Text>
+    <View style={styles.screen}>
+      <View style={styles.container}>
+        {step === 'instructions' ? (
+          <InstructionsCard
+            {...instructions}
+            onNext={() => setStep('quiz')}
+            titleIcon={require('../../../../assets/Vocabulary Builder.png')}
+            tipIcon={require('../../../../assets/flat-color-icons_idea.png')}
+          />
+        ) : (
+          <VocabularyQuizUI
+            items={questions}
+            onFinish={(score) => alert(`Score: ${score}/${questions.length}`)}
+          />
+        )}
       </View>
-
-      <Text style={styles.instructionsTitle}>Instructions:</Text>
-
-      <Text style={styles.instructionsText}>
-        <Text style={{ fontStyle: 'italic' }}>
-          Read the word and choose the correct definition or meaning.
-        </Text>
-        {'\n\n'}
-        <Text style={{ fontStyle: 'italic' }}>Some questions may ask for synonyms or usage.</Text>
-        {'\n\n'}
-        <Text style={{ fontStyle: 'italic' }}>Only one choice is correct.</Text>
-      </Text>
-
-      <Text style={styles.tip}>💡 Tip: Use clues from the choices to find the best match!</Text>
-
-      <TouchableOpacity style={styles.nextButton} onPress={onNext}>
-        <Text style={styles.nextText}>Next</Text>
-      </TouchableOpacity>
+      <BottomNav />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    margin: 20,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    padding: 20,
-    alignItems: 'center',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  icon: {
-    width: 28,
-    height: 28,
-    marginRight: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  instructionsTitle: {
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  instructionsText: {
-    fontSize: 14,
-    color: '#333',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  tip: {
-    fontSize: 13,
-    color: '#777',
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-  nextButton: {
-    backgroundColor: '#5E67CC',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-  },
-  nextText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 15,
-  },
+  screen: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, padding: 20 },
 });
