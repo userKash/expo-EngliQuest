@@ -4,17 +4,36 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/type';
 import BottomNav from '../components/BottomNav';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
+
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<NavigationProp>();
+
+  const [avatar, setAvatar] = useState<any>(require('../../assets/userProfile.png'));
+
+  useEffect(() => {
+    const loadAvatar = async () => {
+      try {
+        const saved = await AsyncStorage.getItem('selectedAvatar');
+        if (saved) {
+          setAvatar(JSON.parse(saved));
+        }
+      } catch (err) {
+        console.error('Error loading avatar:', err);
+      }
+    };
+    loadAvatar();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Image source={require('../../assets/userProfile.png')} style={styles.avatar} />
+          <Image source={avatar} style={styles.avatar} />
           <View>
             <Text style={styles.greeting}>Hello, Sebastian</Text>
             <Text style={styles.subtext}>Let's play, learn, and have fun</Text>

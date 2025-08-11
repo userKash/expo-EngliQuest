@@ -1,4 +1,3 @@
-import { MCQ } from '../components/QuizCard';
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
@@ -12,6 +11,7 @@ export type RootStackParamList = {
   Profile: undefined;
   WordOfTheDay: undefined;
 
+  //VOCABULARY SCREENS NAVIGATIONS
   VocabularyBuilder: undefined;
   VocabularyGame: undefined;
 

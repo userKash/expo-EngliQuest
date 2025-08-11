@@ -45,7 +45,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerBackTitle: '', // ✅ Hides "Back" text globally
+          headerTitleAlign: 'left', // ✅ Title aligned to the left
+          headerShadowVisible: false, // ✅ Removes bottom border (iOS)
+        }}>
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Home"
