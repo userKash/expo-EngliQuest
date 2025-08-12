@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  VocabularyGame: { levelId: string };
   Login: undefined;
   Register: undefined;
   InterestSelection: {
@@ -13,7 +14,6 @@ export type RootStackParamList = {
 
   //VOCABULARY SCREENS NAVIGATIONS
   VocabularyBuilder: undefined;
-  VocabularyGame: undefined;
 
   GrammarPractice: undefined;
 
